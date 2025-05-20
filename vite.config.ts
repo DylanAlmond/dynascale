@@ -14,11 +14,12 @@ export default defineConfig({
     },
     rollupOptions: {
       // Exclude all peer dependencies from being bundled
-      external: [...Object.keys(peerDependencies)],
+      external: [...Object.keys(peerDependencies), 'react/jsx-runtime'],
       output: {
         globals: {
           react: 'React',
-          'react-dom': 'ReactDOM'
+          'react-dom': 'ReactDOM',
+          'react/jsx-runtime': 'ReactJsxRuntime'
         }
       }
     }
