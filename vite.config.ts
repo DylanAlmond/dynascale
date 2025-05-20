@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { peerDependencies } from './package.json';
+import cssInjectedByJsPlugin from 'vite-plugin-css-injected-by-js';
 import react from '@vitejs/plugin-react-swc';
 import dts from 'vite-plugin-dts';
 import path from 'path';
@@ -14,11 +15,12 @@ export default defineConfig({
     },
     rollupOptions: {
       // Exclude all peer dependencies from being bundled
-      external: [...Object.keys(peerDependencies)],
+      external: [...Object.keys(peerDependencies), 'react/jsx-runtime'],
       output: {
         globals: {
           react: 'React',
-          'react-dom': 'ReactDOM'
+          'react-dom': 'ReactDOM',
+          'react/jsx-runtime': 'ReactJsxRuntime'
         }
       }
     }
@@ -28,7 +30,8 @@ export default defineConfig({
     dts({
       rollupTypes: true,
       tsconfigPath: './tsconfig.app.json'
-    })
+    }),
+    cssInjectedByJsPlugin()
   ]
 });
 

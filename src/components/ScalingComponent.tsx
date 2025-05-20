@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import './ScalingComponent.css';
 
 interface ScalingComponentProps {
@@ -25,7 +25,7 @@ interface ScalingComponentProps {
   /**
    * Whether to show debug information
    */
-  showDebugInfo?: boolean;
+  debug?: boolean;
 
   /**
    * Children to render inside the scaling element
@@ -43,7 +43,7 @@ const ScalingComponent = ({
   minScale = 0.1,
   margin = 0,
   className = '',
-  showDebugInfo = false,
+  debug = false,
   children
 }: ScalingComponentProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -112,7 +112,7 @@ const ScalingComponent = ({
         {children}
       </div>
 
-      {showDebugInfo && (
+      {debug && (
         <div className='dynascale__debug'>
           Scale: {scale.toFixed(2)}
           <br />
