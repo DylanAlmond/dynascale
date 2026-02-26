@@ -15,16 +15,30 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
       - uses: actions/checkout@v4
+      - name: Enable corepack for yarn 4
+        run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          registry-url: 'https://registry.npmjs.org'
-      # - run: npm ci
-      - run: yarn install
-      - run: yarn build
-      - name: Release
+          node-version: 24
+          cache: "yarn"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: yarn -v
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Lint
+        run: yarn lint
+      
+      - name: Build package
+        run: yarn build
+
+      - name: Publish to NPM
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: npx semantic-release
